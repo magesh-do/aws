@@ -24,13 +24,12 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@v1.0.3
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME || 'ubuntu' }}
           key: ${{ secrets.KEY }}
-          port: 22
-          script: |
-            whoami
-            ls -al
+          port: ${{ secrets.PORT || 22 }}
+          source: "build/"
+          target: /home/ubuntu/react
